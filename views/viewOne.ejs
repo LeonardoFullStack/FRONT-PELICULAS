@@ -1,0 +1,39 @@
+<%- include('templates/header.ejs') %>
+
+    <main class="grid-film">
+        <section class="film-container">
+            <div class="movie">
+                <div class="div-card-img">
+                    <img class="img-mini" src="<%= data.image %>" alt="portada de la película">
+                </div>
+                <div class="film-data">
+                    <h1> Título: <%= data.title %>
+                    </h1>
+                    <p> Año: <%=data.year %>
+                    </p>
+                    <p> Director: <%= data.directors %>
+                    </p>
+                    <p> Reparto: <%= data.stars %>
+                    </p>
+                    <p> Género: <%= data.genres %>
+                    </p>
+                    <p> Duración: <%=data.runtimeStr %>
+                    </p>
+                    <p> Sinopsis: <%= data.plot %>
+                    </p>
+                    <p> Rating: <%= data.imDbRating %>
+                    </p>
+                </div>
+            </div>
+            <div class="movie-buttons">
+                <div class="false-button"><a href="/404.html">Quitar de favoritos</a></div>
+                <div class="false-button"><a href="/vistaDetalle.html">Añadir a favoritos</a></div>
+            </div>
+        </section>
+    </main>
+    <section class="reviews">
+        <div>
+            aaaaaa
+        </div>
+    </section>
+    <%- include('templates/footer.ejs') %>

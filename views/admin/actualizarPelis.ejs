@@ -1,0 +1,33 @@
+<%- include('templates/headerFormAdmin.ejs') %>   
+     
+    <form action="http://localhost:3000/admin/editMovie/<%=pelicula.peliculaEncontrada._id%>"  method="POST">
+
+        <input type="text" id="title" name="title" value="<%=pelicula.peliculaEncontrada.title%>">
+        <input type="text" id="director" name="director" value="<%=pelicula.peliculaEncontrada.director%>">
+        <input type="text" id="year" name="year" value="<%=pelicula.peliculaEncontrada.year%>">
+        <select name="genero" type="text">
+            <option value="none">None</option>
+            <option value="Terror">Terror</option>
+            <option value="Animacion">Animacion</option>
+            <option value="Accion">Acción </option>
+            <option value="anyway">Bastantes veces</option>
+          </select>       
+          <input type="text" id="actors" name="actors" placeholder="Actores">
+        <input type="text" id="image" name="image" value="<%=pelicula.peliculaEncontrada.image%>">
+        
+        
+        
+        <input type="submit" value="Actualizar"> 
+    </form>
+    
+
+  
+    
+<footer style="background-color: blueviolet; height: 200px;">
+    <h2>
+        soy el footer queloque
+    </h2>
+</footer>
+
+</body>
+</html>

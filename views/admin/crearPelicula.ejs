@@ -1,0 +1,30 @@
+<%- include('templates/headerFormAdmin.ejs') %>
+
+<section class="create-right">
+    <form action="http://localhost:3000/admin/createMovie"method="POST">
+
+        <input type="text" id="title" name="title" placeholder="titulo de la pelicula">
+        <input type="text" id="director" name="director" placeholder="director de la pelicula">
+        <input type="text" id="year" name="year" placeholder="año de la pelicula">
+        <select name="genero" type="text">
+            <option value="none">None</option>
+            <option value="Terror">Terror</option>
+            <option value="Animacion">Animacion</option>
+            <option value="Accion">Acción </option>
+            <option value="anyway">Bastantes veces</option>
+          </select>
+        <input type="text" id="actors" name="actors" placeholder="Actores">
+        <textarea name="textarea" rows="9" cols="60">Write sinopsis</textarea> 
+        <input type="text" id="image" name="image" placeholder="imagen de la pelicula">        
+        <input type="submit" value="Crear">
+    </form>
+  </section>
+    
+<footer style="background-color: blueviolet; height: 200px;">
+    <h2>
+        soy el footer queloque
+    </h2>
+</footer>
+
+</body>
+</html>

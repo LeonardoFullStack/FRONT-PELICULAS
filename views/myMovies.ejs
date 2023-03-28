@@ -1,0 +1,53 @@
+<%- include('templates/header.ejs') %>
+<table>
+    <thead>
+        <th>
+           Título 
+        </th>
+        <th>
+            Dirección 
+         </th>
+         <th>
+            género 
+         </th>
+         <th>
+            Año
+         </th>
+         <th>
+            Duración 
+         </th>
+         <th>
+            Eliminar
+         </th>
+
+    </thead>
+    <tbody>
+        <% data.forEach(element => { %>
+            <tr>
+         <td>
+           <%= element.title %>
+         </td>
+         <td>
+            <%= element.direction %>
+          </td>
+          <td>
+            <%= element.gender %>
+          </td>
+          <td>
+            <%= element.year %>
+          </td>
+          <td>
+            <%= element.length %>
+          </td>
+          <td>
+            <a href="/remove/<%= element.idfilms %>">
+                <button>
+                    Eliminar
+                </button>
+            </a>
+          </td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+<%- include('templates/footer.ejs') %>

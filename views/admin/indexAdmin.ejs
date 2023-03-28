@@ -1,0 +1,45 @@
+<%- include('templates/headerAdmin.ejs') %>
+
+<section class="h-cont">
+    <div class="title">
+        <h1>Tus películas favoritas</h1>
+    </div>
+    <div class="create-button">
+        <a class="a-create" href="http://localhost:3000/admin/createMovie">
+            <i class="fi fi-rr-pen-clip"></i>Crear película
+        </a>
+    </div>
+</section>
+
+<section class="films-container">
+    <div class="grid-container">
+    <% peliculas.forEach(element => { %>
+        <div class="movie-card">
+            <div class="info-section">
+                <div class="movie-header">
+                    <div class="movie-img">
+                        <img class="img-mini" src="<%= element.image %>" alt="">
+                    </div>
+                    <div class="datos">
+                        <h1><%= element.title %> (<%= element.year %>)</h1>
+                        <h4><%= element.director %></h4>
+                        <span>Género duración min</span>
+                    </div>
+                </div>
+                <div class="movie-buttons">
+                    <div class="false-button"><a href=<%=`http://localhost:3000/admin/editMovies/${element._id}`%>>Editar</a></div>
+                    <div class="false-button"><a href=<%=`http://localhost:3000/admin/removeMovie/${element._id}`%>>ELIMINAR</a></div>
+                </div>
+            </div>
+        </div>
+        <% }) %>   
+</section>
+    
+<footer style="background-color: blueviolet; height: 200px;">
+    <h2>
+        soy el footer queloque
+    </h2>
+</footer>
+
+</body>
+</html>

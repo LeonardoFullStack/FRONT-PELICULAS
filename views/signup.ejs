@@ -1,0 +1,21 @@
+<%- include('templates/header.ejs') %>
+<main>
+    <h1>
+        <%= titulo%>
+    </h1>
+    <p>
+        <%= msg%>
+    </p>
+</main>
+    <form method="post" action="/api/apiUsers">
+        <input type="text" name="name" placeholder="nombre">
+        <input type="text" name="email" placeholder="e-mail">
+        <input type="text" name="image" placeholder="url avatar">
+        <input type="password" name="password" placeholder="contraseña">
+        <input type="submit" value="Entrar">
+
+        
+        
+</form>
+
+<%- include('templates/footer.ejs') %>
