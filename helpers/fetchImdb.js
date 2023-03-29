@@ -1,6 +1,7 @@
 
 
-const consulta = async (titulo, id) => {
+const consultaExt = async (titulo, id) => {
+
   let ruta;
   
   if  (id) {
@@ -30,5 +31,5 @@ const consulta = async (titulo, id) => {
 
 
   module.exports={
-    consulta 
+    consultaExt
 }
