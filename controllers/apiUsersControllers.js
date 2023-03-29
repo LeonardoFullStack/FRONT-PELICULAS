@@ -8,9 +8,14 @@ const express = require('express')
 const app = express()
 
 app.use(cookieParser())
-
+//si el usuario es admin, llevar a /admin 
+const logins =async (req,res) =>{
+    
+    res.render('dashboard')
+}
 
 const checkLogin = async (req, res) => {
+
 
     const { email, password } = req.body
 
@@ -59,9 +64,11 @@ const logout = (req, res) => {
         res.clearCookie('xtoken')
 
 
+
         res.render('index', {
             titulo: 'Sesión cerrada',
             msg: 'Haz login para comenzar'
+
         })
     } else {
         res.render('index', {
@@ -69,6 +76,7 @@ const logout = (req, res) => {
             msg: 'Haz login para comenzar'
         })
     }
+
 
 
 }
@@ -186,5 +194,6 @@ module.exports = {
     updateUser,
     checkLogin,
     logout,
-    viewMovie
+    viewMovie,
+    logins
 }
