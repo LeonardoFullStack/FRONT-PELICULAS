@@ -7,7 +7,7 @@
     outline: none;
     font-family: 'Roboto Condensed', sans-serif;
 }
-table {
+/* table {
     border: 1px solid black;
     border-collapse: collapse;
   }
@@ -23,7 +23,7 @@ table {
   
   tr:nth-child(odd) {
     background-color: #ffffff;
-  }
+  } */
 
 .flex-container {
     display: flex;
@@ -105,7 +105,8 @@ nav {
     display: none;
     list-style: none;
     width: 20vw;
-    background-color: rgb(186, 172, 189, 0.5);
+    background-color: rgba(173, 129, 183, 0.9);
+    z-index: 1000;
 }
 
 .nav-horiz li:hover .nav-desplegable {
@@ -254,28 +255,43 @@ nav {
     color: black;
     background-color: none;
 }
-
-.form-container {
-    display: flex;
+/*search*/
+.s-form-container {
+    position: relative;
     padding: 2vh 2vw;
     justify-content: center;
+
 }
 
-.form-container h2 {
-    margin-top: 1vh;
+h2 .form-container {
+    position: absolute;
+    left: 4vw;
+    margin-top: 25px;
+    width: auto;
+    border: 3px solid black;
+}
+.search-f{
+    position: relative;
+    width: auto;
+    height: 18vh;
 }
 
 .search-t {
+    position: absolute;
+    top: 2vh;
     color: #BAACBD;
     border: 1px solid rgba(0, 0, 0, 0.1);
     height: 4.5vh;
-    width: 35vw;
+    width: 20vw;
     font-size: medium;
     text-align: center;
     margin: 1vw;
 }
 
+
 .sub {
+    position: absolute;
+    top: 9vh;
     background-color: #BAACBD;
     height: 4.5vh;
     width: 15vw;
@@ -287,6 +303,23 @@ nav {
 .sub:hover {
     background-color: rgb(180, 142, 174);
 }
+.grid-but{
+    display: grid;
+    grid-template-columns:  auto auto auto auto auto;
+    margin: auto;
+    height: fit-content;
+    padding-left: 4vw;
+    padding-bottom: 2vh;
+
+
+}
+
+
+button .false-button{
+    text-decoration: none;
+    margin: auto;
+}
+
 
 /**HASTA AQUÍ CONTENEDOR DE PELICULAS Y CARDS**/
 

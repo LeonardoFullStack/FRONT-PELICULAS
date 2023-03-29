@@ -3,15 +3,18 @@
 <%- include('templates/header.ejs') %>
 
         <% if (query) { %>
-            <section class="form-container">
 
-            <div class="container">
-                <div class="busqueda">
+            <section class="s-form-container">
+                <h2>
+                    <%=titulo%>
+                </h2>
+                <p><%=msg%></p>
                     <form class="search-f" method="get" action="/search/">
                         <input type="hidden" name="pag" value="1">
                         <input class="search-t" type="text" name="query" placeholder="Título">
                         <input class="sub" type="submit" value="buscar">
                     </form>
+
             </section>
 
     <section class="films-container">
@@ -38,7 +41,7 @@
                         </div>
                         <div class="movie-buttons">
 
-                            <div class="false-button"><a href="/search/add/<%= element.id %>">Aniadir a favoritos</a></div>
+                            <div class="false-button"><a href="/search/add/<%= element.id %>">Añadir a favoritos</a></div>
                             <div class="false-button"><a href="view/<%= element.id %>">Ver más</a></div>
                         </div>
                     </div>
@@ -48,7 +51,9 @@
 
         <% } else { %>
             <section class="form-container">
-
+                <h2>
+                    <%=titulo%>
+                </h2>
                 <form class="search-f" method="get" action="/search/">
                     <input type="hidden" name="pag" value="1">
                     <input class="search-t" type="text" name="query" placeholder="Título">
@@ -57,18 +62,15 @@
             </section>
 
             <%} %>
-                <h3>
-                    Páginas
-                </h3>
                 <% if (query) { %>
+                    <div class="grid-but">
                     <% for( let index=1; index <=paginas; index++ ) { %>
-                        <a href="./?pag=<%= index %>&query=<%= busqueda %>">
-                            <button>
+                        <a class="num-but" href="./?pag=<%= index %>&query=<%= busqueda %>">
+                            <button class="false-button">
                                 <%= index %>
                             </button>
                         </a>
                         <% } %>
-
+                    </div>
                             <% } %>
                                 </main>
-                                

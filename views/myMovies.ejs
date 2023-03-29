@@ -1,53 +1,34 @@
 <%- include('templates/header.ejs') %>
-<table>
-    <thead>
-        <th>
-           Título 
-        </th>
-        <th>
-            Dirección 
-         </th>
-         <th>
-            género 
-         </th>
-         <th>
-            Año
-         </th>
-         <th>
-            Duración 
-         </th>
-         <th>
-            Eliminar
-         </th>
+   <section class="films-container">
+      <h1>Tus películas favoritas</h1>
+      <div class="grid-container">
+         <% data.forEach(element=> { %>
+            <div class="movie-card">
+               <div class="info-section">
+                  <div class="movie-header">
+                     <div class="movie-img">
+                        <img class="img-mini" src="<%= element.image %>" alt="portada de la película">
+                     </div>
+                     <div class="datos">
+                        <h1>
+                           <%= element.title %> , <%= element.year %>
+                        </h1>
+                        <h4>
+                           <%= element.direction %>
+                        </h4>
+                        <h4>
+                           <%=`${element.stars}`%>
+                        </h4>
+                        <span>
+                           <%= ${element.gender} %> , <%=${element.length}%>
+                        </span>
+                     </div>
+                     <div class="movie-buttons">
+                        <div class="false-button"><a href="/remove/<%= element.idfilms %>">Quitar de favoritos</a></div>
+                        <div class="false-button"><a href="view/<%= element.id %>">Ver más</a></div>
+                     </div>
+                  </div>
+               </div>
+               <% }) %>
 
-    </thead>
-    <tbody>
-        <% data.forEach(element => { %>
-            <tr>
-         <td>
-           <%= element.title %>
-         </td>
-         <td>
-            <%= element.direction %>
-          </td>
-          <td>
-            <%= element.gender %>
-          </td>
-          <td>
-            <%= element.year %>
-          </td>
-          <td>
-            <%= element.length %>
-          </td>
-          <td>
-            <a href="/remove/<%= element.idfilms %>">
-                <button>
-                    Eliminar
-                </button>
-            </a>
-          </td>
-        </tr>
-        <% }) %>
-    </tbody>
-</table>
-<%- include('templates/footer.ejs') %>
+                     <%- include('templates/footer.ejs') %>
