@@ -33,7 +33,7 @@ const checkLogin = async (req, res) => {
                 token = await generarJwt(result.data[0].id, result.data[0].name)
                 res.cookie('xtoken', token)
                 res.cookie('atoken', token2)
-                console.log('llego?')
+               
                 res.redirect('/admin/movies')
             } else {
                 token = await generarJwt(result.data[0].id, result.data[0].name)
@@ -105,9 +105,10 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
-const viewMovie = async (req, res) => {
+const viewMovie = async (req, res) => { // gestión de errores
+    console.log('viumubi')
     const idMovie = req.params.id
-    const peticion = await consulta(null, idMovie)
+    const peticion = await consultaExt(null, idMovie)
     console.log(peticion)
     res.render('viewOne', {
         titulo: `${peticion.title}`,
@@ -118,12 +119,12 @@ const viewMovie = async (req, res) => {
 
 
 
-const createUser = async (req, res) => {
-    console.log('paso')
+const createUser = async (req, res) => {//esta funcion se puede quitar creo
+    
     let { name, password, email, image } = req.body
     let salt = bcrypt.genSaltSync(10);
     password = bcrypt.hashSync(password, salt)
-    console.log(password)
+   
 
     try {
         const data = await createUserConnect(name, password, email, image)
@@ -138,7 +139,7 @@ const createUser = async (req, res) => {
             data: userData
         })
     } catch (error) {
-        console.log(error)
+       
         res.status(500).json({
             ok: false,
             msg: 'error al crear el usuario'
@@ -147,7 +148,7 @@ const createUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    console.log('holi?')
+   
     try {
         const data = await deleteUserConnect(req.params.email)
         res.status(200).json({

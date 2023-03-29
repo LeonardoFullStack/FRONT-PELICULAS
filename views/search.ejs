@@ -30,19 +30,20 @@
                             </div>
                             <div class="datos"
                                 <h2>
-                                    <%=`${element.title}`%> <%=`${element.description}`%>
+                                    <%=element.title%> <%=element.description%>
                                 </h2>
-                                <span><%=`${element.runtimeStr}`%></span>
+                                <span><%=element.runtimeStr%></span>
                                 <h4>
-                                    <%=`${element.stars}`%>
+                                    <%=element.stars%>
                                 </h4>
-                                <span><%=`${element.genres}`%></span>
+                                <span><%=element.genres%></span>
                             </div>
                         </div>
+                        <% let tituloSinEspacios=element.title.replace(' ','-')  %>
                         <div class="movie-buttons">
 
                             <div class="false-button"><a href="/search/add/<%= element.id %>">Añadir a favoritos</a></div>
-                            <div class="false-button"><a href="view/<%= element.id %>">Ver más</a></div>
+                            <div class="false-button"><a href="http://localhost:4000/search/<%= element.id %>">Ver mas</a></div>
                         </div>
                     </div>
                 </div>

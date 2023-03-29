@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const bodyParser = require('body-parser');
 
-const {getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard} = require('../controllers/frontControllers')
+const {getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard,vistaDetalles} = require('../controllers/frontControllers')
 
 
 const {checkLogin, logout, viewMovie,logins } = require('../controllers/apiUsersControllers')
@@ -19,9 +19,10 @@ router.post('/signup', getSignup)
 router.get('/dashboard',validarJwt,getDashboard)
 
 router.get('/search/?',validarJwt, getSearch)
-router.get('/search/add/:id',validarJwt, addMovie)
-router.get('/search/view/:id',validarJwt, viewMovie)
-router.get('/movies',validarJwt, myMovies)
+router.get('/search/add/:id',validarJwt, addMovie) // quitar seguramente
+router.get('/search/:id',validarJwt, viewMovie)
+/* router.get('/search/:id/:title',vistaDetalles)
+ */router.get('/movies',validarJwt, myMovies)
 router.get('/dashboard',validarJwt,getDashboard)
 router.delete('/remove/:id', validarJwt, removeMovie)
 

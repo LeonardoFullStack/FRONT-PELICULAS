@@ -1,7 +1,7 @@
 const express = require('express')
 const {conexion}=require('./helpers/dbConnect')
 const cookieParser = require('cookie-parser')
-
+//prueba rama
 const cors = require('cors')
 require('dotenv').config()
 const app = express()

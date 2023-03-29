@@ -3,6 +3,7 @@ const { consultaExt } = require('../helpers/fetchImdb')
 const { consultaInt } = require('../helpers/fecthPropia')
 const { validarJwt } = require('../middleware/validarJwt')
 const {generarJwt} = require('../helpers/jwt')
+const {searchGoogle} = require('../helpers/scrapping')
 const bcrypt = require('bcryptjs')
 
 const getIndex = async (req, res,) => {
@@ -20,7 +21,7 @@ const getDashboard = async (req, res) => {
 const getSignup = async (req, res) => {
   let userData, respuesta,data,result,token
   let body = { ...req.body } 
-  console.log(body)//datos de password incorrectos, corregir
+  //datos de password incorrectos, corregir
  
    
 
@@ -32,7 +33,7 @@ const getSignup = async (req, res) => {
 
   } else {
     try {
-      body.isAdmin=true;
+      body.isAdmin=false;
       let salt = bcrypt.genSaltSync(10);
       body.password = bcrypt.hashSync(body.password, salt)
        data = await consultaInt(`/apiusers`, 'post', body)
@@ -62,10 +63,10 @@ const getSignup = async (req, res) => {
 
 const myMovies = async (req, res) => {
   const id = req.header.id
-  console.log(id)
+  
   const myMovies = await consultaInt(`/apiUsers/films/all/${id}`)
   const moviesJson = await myMovies.json()
-  console.log(moviesJson)
+  
   res.render('myMovies', {
     titulo: `Mis películas`,
     msg: `Consulta aquí tus películas`,
@@ -84,7 +85,7 @@ const addMovie = async (req, res) => {
 
   const idMovie = req.params.id
   const idUsers = req.header.id
-  console.log(idMovie, idUsers)
+  
   const checkMovieOne = await checkMovie(idUsers, idMovie)
   if (checkMovieOne.length == 0) {
     const peticion = await consultaInt(null, idMovie)
@@ -106,7 +107,7 @@ const getSearch = async (req, res) => {
   const pag = req.query.pag //esto hay que ponerlo bien
   if (busqueda) {
     const peticion = await consultaExt(busqueda)
-    console.log(peticion)
+   
     if (peticion) {
       const paginas = Math.ceil(peticion.results.length / 12)
       const primerCorte = (pag - 1) * 12
@@ -142,6 +143,24 @@ const getSearch = async (req, res) => {
   }
 }
 
+const vistaDetalles=async (req, res)=>{
+  try {
+    let id=req.params.id
+    let titulo=req.params.title
+   
+    const peticion = await consultaInt(null,id)
+    const opiniones=await searchGoogle(titulo)
+    res.render('vistaDetalle',{
+      msg:'estos son los detalles',
+      detalles:peticion,
+      opiniones
+    })
+  } catch (error) {
+    
+  }
+}
+
+
 module.exports = {
   getIndex,
   getDashboard,
@@ -149,5 +168,6 @@ module.exports = {
   getSearch,
   addMovie,
   myMovies,
-  removeMovie
+  removeMovie,
+  vistaDetalles
 }
