@@ -1,9 +1,9 @@
 /* const { createUserConnect, getUserConnect, getAllUsersConnect, deleteUserConnect, updateUserConnect } = require('../models/users') */
 const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser')
-const { generarJwt } = require('../helpers/jwt')
+const { generarJwt,generarJwtAdmin } = require('../helpers/jwt')
 const { consultaExt } = require('../helpers/fetchImdb')
-const {consultaInt} = require('../helpers/fecthPropia')
+const { consultaInt } = require('../helpers/fecthPropia')
 const express = require('express')
 const app = express()
 
@@ -15,64 +15,60 @@ const logins =async (req,res) =>{
 }
 
 const checkLogin = async (req, res) => {
-    
-   const {email, password} = req.body
-   
+
+
+    const { email, password } = req.body
+
     let userData, passwordOk, token, result
     try {
-        console.log('holi')
-        userData = await  consultaInt(`/apiUsers/${email}`)
-         result = await userData.json()
-        console.log(result.data[0].password)
+        userData = await consultaInt(`/apiUsers/${email}`)
+        result = await userData.json()
+
 
         passwordOk = bcrypt.compareSync(password, result.data[0].password)
-        console.log(passwordOk)
-       
 
+        if (passwordOk) {
+            if (result.data[0].isadmin) {
+                token2 = await generarJwtAdmin(result.data[0].id, result.data[0].name)
+                token = await generarJwt(result.data[0].id, result.data[0].name)
+                res.cookie('xtoken', token)
+                res.cookie('atoken', token2)
+                console.log('llego?')
+                res.redirect('/admin/movies')
+            } else {
+                token = await generarJwt(result.data[0].id, result.data[0].name)
+                res.cookie('xtoken', token)
+
+                res.redirect('/dashboard')
+            }
+        } else if (!passwordOk) {
+            res.render('index', {
+                titulo: 'Error al identificar',
+                msg: 'Prueba otra vez'
+            })
+        }
 
 
     } catch (error) {
         res.render('error', {
             titulo: 'Error al conectar con la base de datos',
             error: `Fallo de conexión`,
-            
+
         })
     }
-
-     if (passwordOk) {
-
-        token = await generarJwt(result.data[0].id, result.data[0].name)
-        
-        
-        res.cookie('xtoken', token)
-
-        res.render('dashboard', {
-            titulo: 'Login correcto',
-            msg: `Bienvenido ${result.data[0].name}`,
-            data:result.data[0],
-            
-        })
-
-    } else if (!passwordOk) {
-        res.render('index', {
-            titulo: 'Error al identificar',
-            msg: 'Prueba otra vez'
-        })
-    }
-
- 
-
 }
 
-const logout = (req,res) => {
+const logout = (req, res) => {
 
     if (req.cookies.xtoken) {
         res.clearCookie('xtoken')
-    
+
+
 
         res.render('index', {
             titulo: 'Sesión cerrada',
             msg: 'Haz login para comenzar'
+
         })
     } else {
         res.render('index', {
@@ -80,7 +76,8 @@ const logout = (req,res) => {
             msg: 'Haz login para comenzar'
         })
     }
-    
+
+
 
 }
 
@@ -108,15 +105,15 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
-const viewMovie =async (req,res) => {
+const viewMovie = async (req, res) => {
     const idMovie = req.params.id
     const peticion = await consulta(null, idMovie)
     console.log(peticion)
     res.render('viewOne', {
         titulo: `${peticion.title}`,
         msg: 'Vista al detalle de la película',
-        data:peticion
-      })
+        data: peticion
+    })
 }
 
 
@@ -134,7 +131,7 @@ const createUser = async (req, res) => {
         token = await generarJwt(userData[0].id, userData[0].name)
 
         res.cookie('xtoken', token)
-        
+
         res.render('dashboard', {
             titulo: 'usuario creado.Bienvenido!',
             msg: 'Mi perfil',

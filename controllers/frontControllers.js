@@ -3,6 +3,7 @@ const { consultaExt } = require('../helpers/fetchImdb')
 const { consultaInt } = require('../helpers/fecthPropia')
 const { validarJwt } = require('../middleware/validarJwt')
 const {generarJwt} = require('../helpers/jwt')
+const bcrypt = require('bcryptjs')
 
 const getIndex = async (req, res,) => {
 
@@ -18,8 +19,10 @@ const getDashboard = async (req, res) => {
 
 const getSignup = async (req, res) => {
   let userData, respuesta,data,result,token
-  let { name, password, email } = req.body
-  let body = { ...req.body }
+  let body = { ...req.body } 
+  console.log(body)//datos de password incorrectos, corregir
+ 
+   
 
   if (Object.keys(body).length == 0) {
     res.render('signup', {
@@ -29,21 +32,21 @@ const getSignup = async (req, res) => {
 
   } else {
     try {
+      body.isAdmin=true;
+      let salt = bcrypt.genSaltSync(10);
+      body.password = bcrypt.hashSync(body.password, salt)
        data = await consultaInt(`/apiusers`, 'post', body)
        result = await data.json()
 
       if (result.ok) {
-        userData = await consultaInt(`/apiUsers/${email}`)
+        userData = await consultaInt(`/apiUsers/${body.email}`)
         respuesta = await userData.json()
       
         token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)
         
         
         res.cookie('xtoken', token)
-        res.render('dashboard', {
-          titulo: 'Sesión iniciada',
-          msg: 'Bienvenido! Ya puedes buscar películas y añadirlas a favoritos'
-        })
+        res.redirect('/dashboard')
       }
 
     } catch (error) {

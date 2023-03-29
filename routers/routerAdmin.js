@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router();
 const{mostrarPeliculas,formActualizar,actualizar,formCrear,eliminando,crear}=require('../controllers/adminControllers')
+const {validarJwtAdmin} = require('../middleware/validarJwt')
 
 
-router.get('/movies',mostrarPeliculas)
+router.get('/movies',validarJwtAdmin,mostrarPeliculas)
 
 
 //*CREAR PELICULA
