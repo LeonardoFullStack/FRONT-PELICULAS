@@ -19,25 +19,28 @@ const getDashboard = async (req, res) => {
 }
 
 const getSignup = async (req, res) => {
+  res.render('signup', {
+    titulo: 'Crear usuario',
+    msg: 'Crea tu usuario en la API de MLE, son ya mas de quinientos billones!'
+  })
+  }
+
+
+
+
+const postSignup =async (req,res) => {
+  console.log('paso1')
   let userData, respuesta,data,result,token
   let body = { ...req.body } 
-  //datos de password incorrectos, corregir
- 
-   
-
-  if (Object.keys(body).length == 0) {
-    res.render('signup', {
-      titulo: 'Crear usuario',
-      msg: 'Crea tu usuario en la API de MLE, son ya mas de quinientos billones!'
-    })
-
-  } else {
+  console.log(body)
     try {
       body.isAdmin=false;
       let salt = bcrypt.genSaltSync(10);
       body.password = bcrypt.hashSync(body.password, salt)
+      console.log('preconsulta')
        data = await consultaInt(`/apiusers`, 'post', body)
        result = await data.json()
+       console.log(result)
 
       if (result.ok) {
         userData = await consultaInt(`/apiUsers/${body.email}`)
@@ -56,9 +59,6 @@ const getSignup = async (req, res) => {
         msg: 'error al crear usuario'
       })
     }
-  }
-
-
 }
 
 const myMovies = async (req, res) => {
@@ -169,5 +169,6 @@ module.exports = {
   addMovie,
   myMovies,
   removeMovie,
-  vistaDetalles
+  vistaDetalles,
+  postSignup
 }

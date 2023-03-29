@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const bodyParser = require('body-parser');
 
-const {getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard,vistaDetalles} = require('../controllers/frontControllers')
+const {postSignup,getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard,vistaDetalles} = require('../controllers/frontControllers')
 
 
 const {checkLogin, logout, viewMovie,logins } = require('../controllers/apiUsersControllers')
@@ -14,8 +14,9 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', getIndex);
 
+router.get('/signup', getSignup)
+router.post('/signup', postSignup)
 
-router.post('/signup', getSignup)
 router.get('/dashboard',validarJwt,getDashboard)
 
 router.get('/search/?',validarJwt, getSearch)
@@ -26,7 +27,7 @@ router.get('/search/:id',validarJwt, viewMovie)
 router.get('/dashboard',validarJwt,getDashboard)
 router.delete('/remove/:id', validarJwt, removeMovie)
 
-router.get('/signup', getSignup)
+
 router.get('/logout', logout)
 
 router.get('/login', logins)
