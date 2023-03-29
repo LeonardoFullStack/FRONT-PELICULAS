@@ -8,12 +8,16 @@ const express = require('express')
 const app = express()
 
 app.use(cookieParser())
-
+//si el usuario es admin, llevar a /admin 
+const logins =async (req,res) =>{
+    
+    res.render('dashboard')
+}
 
 const checkLogin = async (req, res) => {
-    console.log(req.body,'erbody')
+    
    const {email, password} = req.body
-   console.log(password)
+   
     let userData, passwordOk, token, result
     try {
         console.log('holi')
@@ -42,7 +46,7 @@ const checkLogin = async (req, res) => {
         
         res.cookie('xtoken', token)
 
-        res.render('index', {
+        res.render('dashboard', {
             titulo: 'Login correcto',
             msg: `Bienvenido ${result.data[0].name}`,
             data:result.data[0],
@@ -61,11 +65,22 @@ const checkLogin = async (req, res) => {
 }
 
 const logout = (req,res) => {
-    res.clearCookie('x-token')
-    res.render('index', {
-        titulo: 'Sesión cerrada',
-        msg: 'Haz login para comenzar'
-    })
+
+    if (req.cookies.xtoken) {
+        res.clearCookie('xtoken')
+    
+
+        res.render('index', {
+            titulo: 'Sesión cerrada',
+            msg: 'Haz login para comenzar'
+        })
+    } else {
+        res.render('index', {
+            titulo: 'Proyecto intermedio',
+            msg: 'Haz login para comenzar'
+        })
+    }
+    
 
 }
 
@@ -182,5 +197,6 @@ module.exports = {
     updateUser,
     checkLogin,
     logout,
-    viewMovie
+    viewMovie,
+    logins
 }
