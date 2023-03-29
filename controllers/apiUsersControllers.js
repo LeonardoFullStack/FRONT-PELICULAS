@@ -107,6 +107,7 @@ const viewMovie =async (req,res) => {
 
 
 const createUser = async (req, res) => {
+    console.log('paso')
     let { name, password, email, image } = req.body
     let salt = bcrypt.genSaltSync(10);
     password = bcrypt.hashSync(password, salt)

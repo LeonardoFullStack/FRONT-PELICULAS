@@ -14,8 +14,8 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', getIndex);
 
-/* router.get('/dashboard',getDashboard) */
-router.get('/signup', getSignup)
+
+router.post('/signup', getSignup)
 
 
 router.get('/search/?',validarJwt, getSearch)

@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const validarJwt = (req, res, next) => {
     
        
-    const xToken = req.cookies['x-token'];
+    const xToken = req.cookies['xtoken'];
         console.log(xToken)
 
         if (!xToken) {
