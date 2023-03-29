@@ -1,77 +1,89 @@
-
-
 <%- include('templates/header.ejs') %>
 
-        <% if (query) { %>
+    <% if (query) { %>
 
-            <section class="s-form-container">
-                <h2>
-                    <%=titulo%>
-                </h2>
-                <p><%=msg%></p>
+        <section class="s-form-container">
+            <h2>
+                <%=titulo%>
+            </h2>
+            <p>
+                <%=msg%>
+            </p>
+            <form class="search-f" method="get" action="/search/">
+                <input type="hidden" name="pag" value="1">
+                <input class="search-t" type="text" name="query" placeholder="Título">
+                <input class="sub" type="submit" value="buscar">
+            </form>
+
+        </section>
+
+        <section class="films-container">
+            <div class="grid-container">
+
+                <% data.forEach(element=> { %>
+                    <div class="movie-card">
+                        <div class="info-section">
+                            <div class="movie-header">
+                                <div class="movie-img">
+                                    <img class="img-mini" src="<%= element.image %>" alt="portada de la película">
+
+                                </div>
+                                <div class="datos" <h2>
+                                    <%=element.title%>
+                                        <%=element.description%>
+                                            </h2>
+                                            <span>
+                                                <%=element.runtimeStr%>
+                                            </span>
+                                            <h4>
+                                                <%=element.stars%>
+                                            </h4>
+                                            <span>
+                                                <%=element.genres%>
+                                            </span>
+                                </div>
+                            </div>
+                            <% let tituloSinEspacios=element.title.replace(' ',' -') %>
+                                <div class="movie-buttons">
+
+                                    <div id="<%= element.id %>" class="false-button favAdd"><a href="#">Añadir a
+                                            favoritos</a></div>
+                                    <div class="false-button" ><a
+                                            href="http://localhost:4000/search/<%= element.id %>">Ver mas</a></div>
+                                </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+            <% } else { %>
+                <section class="form-container">
+                    <h2>
+                        <%=titulo%>
+                    </h2>
                     <form class="search-f" method="get" action="/search/">
                         <input type="hidden" name="pag" value="1">
                         <input class="search-t" type="text" name="query" placeholder="Título">
                         <input class="sub" type="submit" value="buscar">
                     </form>
+                </section>
 
-            </section>
-
-    <section class="films-container">
-        <div class="grid-container">
-
-            <% data.forEach(element=> { %>
-                <div class="movie-card">
-                    <div class="info-section">
-                        <div class="movie-header">
-                            <div class="movie-img">
-                                <img class="img-mini" src="<%= element.image %>" alt="portada de la película">
-
-                            </div>
-                            <div class="datos"
-                                <h2>
-                                    <%=element.title%> <%=element.description%>
-                                </h2>
-                                <span><%=element.runtimeStr%></span>
-                                <h4>
-                                    <%=element.stars%>
-                                </h4>
-                                <span><%=element.genres%></span>
-                            </div>
+                <%} %>
+                    <% if (query) { %>
+                        <div class="grid-but">
+                            <% for( let index=1; index <=paginas; index++ ) { %>
+                                <a class="num-but" href="./?pag=<%= index %>&query=<%= busqueda %>">
+                                    <button class="false-button">
+                                        <%= index %>
+                                    </button>
+                                </a>
+                                <% } %>
                         </div>
-                        <% let tituloSinEspacios=element.title.replace(' ','-')  %>
-                        <div class="movie-buttons">
-
-                            <div class="false-button"><a href="/search/add/<%= element.id %>">Añadir a favoritos</a></div>
-                            <div class="false-button"><a href="http://localhost:4000/search/<%= element.id %>">Ver mas</a></div>
-                        </div>
-                    </div>
-                </div>
-                <% }) %>
-        </div>
-
-        <% } else { %>
-            <section class="form-container">
-                <h2>
-                    <%=titulo%>
-                </h2>
-                <form class="search-f" method="get" action="/search/">
-                    <input type="hidden" name="pag" value="1">
-                    <input class="search-t" type="text" name="query" placeholder="Título">
-                    <input class="sub" type="submit" value="buscar">
-                </form>
-            </section>
-
-            <%} %>
-                <% if (query) { %>
-                    <div class="grid-but">
-                    <% for( let index=1; index <=paginas; index++ ) { %>
-                        <a class="num-but" href="./?pag=<%= index %>&query=<%= busqueda %>">
-                            <button class="false-button">
-                                <%= index %>
-                            </button>
-                        </a>
                         <% } %>
-                    </div>
-                            <% } %>
-                                </main>
+                            </main>
+                            <button id="myButton">Haz clic aquí</button>
+                            <script src="/movieControllers.js">
+                            
+
+
+                            </script>

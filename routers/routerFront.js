@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const {postSignup,getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard,vistaDetalles} = require('../controllers/frontControllers')
 
 
-const {checkLogin, logout, viewMovie,logins } = require('../controllers/apiUsersControllers')
+const {checkLogin, logout, viewMovie,logins } = require('../controllers/UsersControllers')
 
 const {validarJwt} = require('../middleware/validarJwt')
 
@@ -19,7 +19,7 @@ router.post('/signup', postSignup)
 
 router.get('/dashboard',validarJwt,getDashboard)
 
-router.get('/search/?',validarJwt, getSearch)
+router.get('/search/?', getSearch)
 router.get('/search/add/:id',validarJwt, addMovie) // quitar seguramente
 router.get('/search/:id',validarJwt, viewMovie)
 /* router.get('/search/:id/:title',vistaDetalles)

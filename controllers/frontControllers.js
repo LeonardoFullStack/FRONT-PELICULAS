@@ -6,6 +6,8 @@ const {generarJwt} = require('../helpers/jwt')
 const {searchGoogle} = require('../helpers/scrapping')
 const bcrypt = require('bcryptjs')
 
+
+
 const getIndex = async (req, res,) => {
 
   res.render('index', {
