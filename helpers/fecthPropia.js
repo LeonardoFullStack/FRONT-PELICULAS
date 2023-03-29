@@ -2,8 +2,8 @@ const urlBase='http://localhost:3000/api'
 const express = require('express')
 
 
-const consulta = async(url,method,body) => {
-
+const consultaInt = async(url,method,body) => {
+ 
     let options={}
     if(method=='post' || method=='put'){
         
@@ -26,9 +26,10 @@ const consulta = async(url,method,body) => {
             method: method,
         }
     }
+    
       return await fetch(`${urlBase}${url}`,options);
 }
 
 module.exports = {
-    consulta
+    consultaInt
 }

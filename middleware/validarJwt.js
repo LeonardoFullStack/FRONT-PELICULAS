@@ -4,12 +4,12 @@ const cookieParser = require('cookie-parser')
 
 
 const validarJwt = (req, res, next) => {
-    console.log('holi?')
+    
        
-        const {xtoken} = req.cookies
-        console.log(xtoken)
+    const xToken = req.cookies['x-token'];
+        console.log(xToken)
 
-        if (!xtoken) {
+        if (!xToken) {
             return res.render('index', {
                 titulo: 'No has iniciado sesión',
                 msg: 'Inicia sesión para continuar'
@@ -18,7 +18,7 @@ const validarJwt = (req, res, next) => {
 
         try {
 
-            const payload = jwt.verify(xtoken, process.env.JWT_SECRET_KEY);
+            const payload = jwt.verify(xToken, process.env.JWT_SECRET_KEY);
             
             req.header.id = payload.uid
             req.header.name = payload.name

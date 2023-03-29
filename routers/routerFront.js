@@ -22,7 +22,7 @@ router.get('/search/?',validarJwt, getSearch)
 router.get('/search/add/:id',validarJwt, addMovie)
 router.get('/search/view/:id',validarJwt, viewMovie)
 router.get('/movies',validarJwt, myMovies)
-router.get('/remove/:id', validarJwt, removeMovie)
+router.delete('/remove/:id', validarJwt, removeMovie)
 
 router.get('/signup', getSignup)
 router.get('/logout', logout)

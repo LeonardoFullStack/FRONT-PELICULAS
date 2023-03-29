@@ -2,7 +2,8 @@
 const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser')
 const { generarJwt } = require('../helpers/jwt')
-const { consulta } = require('../helpers/fetchImdb')
+const { consultaExt } = require('../helpers/fetchImdb')
+const {consultaInt} = require('../helpers/fecthPropia')
 const express = require('express')
 const app = express()
 
@@ -16,7 +17,7 @@ const checkLogin = async (req, res) => {
     let userData, passwordOk, token, result
     try {
         console.log('holi')
-        userData = await consulta(`/apiUsers/${email}`)
+        userData = await  consultaInt(`/apiUsers/${email}`)
          result = await userData.json()
         console.log(result.data[0].password)
 
@@ -60,7 +61,7 @@ const checkLogin = async (req, res) => {
 }
 
 const logout = (req,res) => {
-    res.cookie('x-token', '')
+    res.clearCookie('x-token')
     res.render('index', {
         titulo: 'Sesión cerrada',
         msg: 'Haz login para comenzar'

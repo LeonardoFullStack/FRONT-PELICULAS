@@ -1,5 +1,6 @@
 const express = require('express')
-const { consulta } = require('../helpers/fetchImdb')
+const { consultaExt } = require('../helpers/fetchImdb')
+const {consultaInt} = require('../helpers/fecthPropia')
 const { validarJwt } = require('../middleware/validarJwt')
 
 const getIndex = async (req, res,) => {
@@ -25,12 +26,14 @@ const getSignup = (req,res) => {
 
 const myMovies =async (req,res) => {
   const id = req.header.id
-  const myMovies = await checkMyMovies(id)
-  console.log(myMovies)
+  console.log(id)
+  const myMovies = await consultaInt(`/apiUsers/films/all/${id}`)
+  const moviesJson = await myMovies.json()
+  console.log(moviesJson)
   res.render('myMovies', {
     titulo: `Mis películas`,
     msg: `Consulta aquí tus películas`,
-    data:myMovies
+    data:moviesJson.data
   })
 }
 
@@ -48,7 +51,7 @@ const addMovie =async  (req,res) => {
   console.log(idMovie,idUsers)
   const checkMovieOne = await checkMovie(idUsers, idMovie)
   if (checkMovieOne.length == 0) {
-    const peticion = await consulta(null, idMovie)
+    const peticion = await consultaInt(null, idMovie)
     const {title, image, genres, year, runtimeStr, directors} = peticion
     const data = await addMovieConnect(idMovie, idUsers,title, image, genres, year, runtimeStr, directors)
   
@@ -62,10 +65,11 @@ const addMovie =async  (req,res) => {
 
 
 const getSearch = async (req, res) => {
+  
   const busqueda = req.query.query
   const pag = req.query.pag //esto hay que ponerlo bien
   if (busqueda) {
-    const peticion = await consulta(busqueda)
+    const peticion = await consultaExt(busqueda)
     console.log(peticion)
     if (peticion) {
       const paginas = Math.ceil(peticion.results.length / 12)
