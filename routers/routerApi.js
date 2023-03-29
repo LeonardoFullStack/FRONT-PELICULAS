@@ -8,7 +8,7 @@ const { getPeliculas,crearPelicula,actualizarPelicula,eliminarPelicula,getPelicu
 
 
 
-router.get('/', getPeliculas)      //* GET
+router.get('/', getPeliculas)  //* GET
 
 router.get('/:id',getPelicula)
 

@@ -1,4 +1,4 @@
-const {consulta}=require('../helpers/fecthPropia')
+const {consultaInt}=require('../helpers/fecthPropia')
 
 
 
@@ -6,7 +6,7 @@ const mostrarPeliculas = async (req, res) => {
 
 
 
-    const respuesta = await consulta("/peliculas", 'get');
+    const respuesta = await consultaInt("/peliculas", 'get');
 
     const {data} = await respuesta.json()
 
@@ -26,7 +26,7 @@ const formActualizar=async(req,res)=>{
 
        const url=`/peliculas/${id}`
        
-        const respuesta= await consulta(url,'get')
+        const respuesta= await consultaInt(url,'get')
 
         const unaPelicula= await respuesta.json()
 
@@ -52,7 +52,7 @@ const actualizar= async(req,res)=>{
 
        
 
-        consulta(url,'put',req.body)
+        consultaInt(url,'put',req.body)
 
     res.redirect('/admin/movies')
 
@@ -70,7 +70,7 @@ const crear= async(req,res)=>{
 
     try {
 
-    consulta("/peliculas",'post',req.body)
+    consultaInt("/peliculas",'post',req.body)
 
     res.redirect('/admin/movies')
 
@@ -85,7 +85,7 @@ const eliminando=async(req,res)=>{
 
         const urlDeUnaPelicula=`/peliculas/${id}`
 
-        consulta(urlDeUnaPelicula,'delete',req.body)
+        consultaInt(urlDeUnaPelicula,'delete',req.body)
 
         res.redirect('/admin/movies')
         
