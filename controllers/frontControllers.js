@@ -12,16 +12,30 @@ const getIndex = async (req, res,) => {
   })
 }
 
+const viewMovie =async (req,res) => {
+  const idMovie = req.params.id
+  const peticion = await consulta(null, idMovie)
+  console.log(peticion)
+  res.render('viewOne', {
+      titulo: `${peticion.title}`,
+      msg: 'Vista al detalle de la película',
+      data:peticion
+    })
+}
+
 const getDashboard = async (req, res) => {
   res.render('dashboard')
 }
 
 const getSignup = async (req, res) => {
+  console.log('paso')
   let userData, respuesta,data,result,token
   let { name, password, email } = req.body
-  let body = { ...req.body }
+  let isAdmin = false;
+  let body = { name,password,email,isAdmin }
+  console.log(body)
 
-  if (Object.keys(body).length == 0) {
+  if (Object.keys(req.body).length == 0) {
     res.render('signup', {
       titulo: 'Crear usuario',
       msg: 'Crea tu usuario en la API de MLE, son ya mas de quinientos billones!'
@@ -43,6 +57,11 @@ const getSignup = async (req, res) => {
         res.render('dashboard', {
           titulo: 'Sesión iniciada',
           msg: 'Bienvenido! Ya puedes buscar películas y añadirlas a favoritos'
+        })
+      } else {
+        res.render('error', {
+          error: 'error de conexión',
+          msg: 'error al crear usuario'
         })
       }
 
@@ -146,5 +165,6 @@ module.exports = {
   getSearch,
   addMovie,
   myMovies,
-  removeMovie
+  removeMovie,
+  viewMovie
 }

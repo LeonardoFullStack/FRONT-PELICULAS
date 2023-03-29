@@ -31,4 +31,10 @@ GET http://localhost:3000/api/apiUsers/films/:id capturar película de usuarios 
 
 POST http://localhost:3000/api/apiUsers/films/ añadir película a usuarios(7 parámetros por req.body: idUser,title,idFilm,genres,year,runtimeStr,directors)  
 
-DEL http://localhost:3000/api/apiUsers/films/:id borrar película de usuarios (id película por parámetros, idUser en req.body)  
+DEL http://localhost:3000/api/apiUsers/films/:id borrar película de usuarios (id película por parámetros, idUser en req.body) 
+
+.env =
+JWT_SECRET_KEY=elcieloestaentabicubiladoquienlodesentabiculara
+API_KEYM=k_i7k30hf4
+URI_CONECT=mongodb+srv://admin:admin@cluster0.7pshytv.mongodb.net/proyecto1?retryWrites=true&w=majority
+PORT=4000

@@ -2,10 +2,10 @@ const express=require('express');
 const router=express.Router();
 const bodyParser = require('body-parser');
 
-const {getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard} = require('../controllers/frontControllers')
+const {getIndex, getSearch, getSignup, addMovie, myMovies, removeMovie, getDashboard,viewMovie} = require('../controllers/frontControllers')
 
 
-const {checkLogin, logout,viewMovie,logins } = require('../controllers/apiUsersControllers')
+const {checkLogin, logout,logins } = require('../controllers/apiUsersControllers')
 
 const {validarJwt} = require('../middleware/validarJwt')
 
@@ -17,7 +17,7 @@ router.get('/', getIndex);
 
 router.post('/signup', getSignup)
 
-
+router.get('/dashboard',validarJwt, getDashboard)
 router.get('/search/?',validarJwt, getSearch)
 router.get('/search/add/:id',validarJwt, addMovie)
 router.get('/search/view/:id',validarJwt, viewMovie)
@@ -29,6 +29,8 @@ router.get('/logout', logout)
 
 router.get('/login', logins)
 router.post('/login', checkLogin)
+
+
 
 
 

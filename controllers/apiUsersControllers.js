@@ -1,33 +1,31 @@
 /* const { createUserConnect, getUserConnect, getAllUsersConnect, deleteUserConnect, updateUserConnect } = require('../models/users') */
 const bcrypt = require('bcryptjs')
 const cookieParser = require('cookie-parser')
-const { generarJwt } = require('../helpers/jwt')
+const { generarJwt, generarJwtAdmin } = require('../helpers/jwt')
 const { consultaExt } = require('../helpers/fetchImdb')
-const {consultaInt} = require('../helpers/fecthPropia')
+const { consultaInt } = require('../helpers/fecthPropia')
 const express = require('express')
 const app = express()
 
 app.use(cookieParser())
 //si el usuario es admin, llevar a /admin 
-const logins =async (req,res) =>{
-    
+const logins = async (req, res) => {
+
     res.render('dashboard')
 }
 
 const checkLogin = async (req, res) => {
-    
-   const {email, password} = req.body
-   
+
+    const { email, password } = req.body
+
     let userData, passwordOk, token, result
     try {
-        console.log('holi')
-        userData = await  consultaInt(`/apiUsers/${email}`)
-         result = await userData.json()
-        console.log(result.data[0].password)
+        userData = await consultaInt(`/apiUsers/${email}`)
+        result = await userData.json()
+ 
 
         passwordOk = bcrypt.compareSync(password, result.data[0].password)
-        console.log(passwordOk)
-       
+
 
 
 
@@ -35,23 +33,29 @@ const checkLogin = async (req, res) => {
         res.render('error', {
             titulo: 'Error al conectar con la base de datos',
             error: `Fallo de conexión`,
-            
+
         })
     }
 
-     if (passwordOk) {
+    if (passwordOk) {
+        if (result.data[0].isadmin) {
+            token = await generarJwtAdmin(result.data[0].id, result.data[0].name)
+            res.cookie('xtoken', token)
 
-        token = await generarJwt(result.data[0].id, result.data[0].name)
-        
-        
+            res.redirect('/admin/movies')
+        } else {
+            token = await generarJwt(result.data[0].id, result.data[0].name)
+            res.cookie('xtoken', token)
+
+            res.redirect('/dashboard')
+        }
+
+
         res.cookie('xtoken', token)
 
-        res.render('dashboard', {
-            titulo: 'Login correcto',
-            msg: `Bienvenido ${result.data[0].name}`,
-            data:result.data[0],
-            
-        })
+        res.redirect('/dashboard')
+
+
 
     } else if (!passwordOk) {
         res.render('index', {
@@ -60,15 +64,15 @@ const checkLogin = async (req, res) => {
         })
     }
 
- 
+
 
 }
 
-const logout = (req,res) => {
+const logout = (req, res) => {
 
     if (req.cookies.xtoken) {
         res.clearCookie('xtoken')
-    
+
 
         res.render('index', {
             titulo: 'Sesión cerrada',
@@ -80,7 +84,7 @@ const logout = (req,res) => {
             msg: 'Haz login para comenzar'
         })
     }
-    
+
 
 }
 
@@ -108,46 +112,10 @@ const getUserByEmail = async (req, res) => {
     }
 }
 
-const viewMovie =async (req,res) => {
-    const idMovie = req.params.id
-    const peticion = await consulta(null, idMovie)
-    console.log(peticion)
-    res.render('viewOne', {
-        titulo: `${peticion.title}`,
-        msg: 'Vista al detalle de la película',
-        data:peticion
-      })
-}
 
 
 
-const createUser = async (req, res) => {
-    console.log('paso')
-    let { name, password, email, image } = req.body
-    let salt = bcrypt.genSaltSync(10);
-    password = bcrypt.hashSync(password, salt)
-    console.log(password)
 
-    try {
-        const data = await createUserConnect(name, password, email, image)
-        const userData = await getUserConnect(email)
-        token = await generarJwt(userData[0].id, userData[0].name)
-
-        res.cookie('xtoken', token)
-        
-        res.render('dashboard', {
-            titulo: 'usuario creado.Bienvenido!',
-            msg: 'Mi perfil',
-            data: userData
-        })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            ok: false,
-            msg: 'error al crear el usuario'
-        })
-    }
-}
 
 const deleteUser = async (req, res) => {
     console.log('holi?')
@@ -191,12 +159,10 @@ const updateUser = async (req, res) => {
 }
 
 module.exports = {
-    createUser,
     getUserByEmail,
     deleteUser,
     updateUser,
     checkLogin,
     logout,
-    viewMovie,
     logins
 }
