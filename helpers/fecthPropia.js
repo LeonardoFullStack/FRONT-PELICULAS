@@ -3,7 +3,7 @@ const express = require('express')
 
 
 const consultaInt = async(url,method,body) => {
- console.log('paso')
+
     let options={}
     if(method=='post' || method=='put'){
         

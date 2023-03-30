@@ -68,6 +68,7 @@ const myMovies = async (req, res) => {
   
   const myMovies = await consultaInt(`/apiUsers/films/all/${id}`)
   const moviesJson = await myMovies.json()
+  console.log(moviesJson.data)
   
   res.render('myMovies', {
     titulo: `Mis películas`,
@@ -84,11 +85,37 @@ const removeMovie = async (req, res) => {
 }
 //falta gestión de errores, y no repetir peliculas. Y corregir el redirect
 const addMovie = async (req, res) => {
-
+  
   const idMovie = req.params.id
   const idUsers = req.header.id
-  
-  const checkMovieOne = await checkMovie(idUsers, idMovie)
+  const body = {
+    idUsers
+  }
+  console.log(idUsers, idMovie)
+  const checkMovieOne  = await consultaInt(`/apiUsers/films/${idMovie}`,'get',body)
+  const result = await checkMovieOne.json()
+  console.log(result)
+  if (!result.ok) {
+    
+    const movieInfo  = await consultaExt(null, idMovie)
+    const {title, image, year, runtimeStr, genres, directors} = await movieInfo
+    const bodyNew = {
+      idUser:idUsers,
+      title,
+      year,
+      runtimeStr,
+      genres,
+      directors,
+      image,
+      idFilm: idMovie
+
+    }
+    
+    const addMovieOne = await consultaInt(`/apiUsers/films/`,'post',bodyNew)
+    const resp = await addMovieOne.json()
+    console.log(resp)
+  }
+  /* const checkMovieOne = await checkMovie(idUsers, idMovie)
   if (checkMovieOne.length == 0) {
     const peticion = await consultaInt(null, idMovie)
     const { title, image, genres, year, runtimeStr, directors } = peticion
@@ -97,8 +124,8 @@ const addMovie = async (req, res) => {
   } else {
     //aqui ya tiene la película
   }
-
-  res.redirect('/movies')
+*/
+  res.redirect('/search/?pag=1&query=matrix') 
 }
 
 

@@ -19,7 +19,7 @@ router.post('/signup', postSignup)
 
 router.get('/dashboard',validarJwt,getDashboard)
 
-router.get('/search/?', getSearch)
+router.get('/search/?',validarJwt, getSearch)
 router.get('/search/add/:id',validarJwt, addMovie) // quitar seguramente
 router.get('/search/:id',validarJwt, viewMovie)
 /* router.get('/search/:id/:title',vistaDetalles)
