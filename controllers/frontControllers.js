@@ -42,12 +42,12 @@ const postSignup = async (req, res) => {
 
     data = await consultaInt(`/apiusers`, 'post', body)
     result = await data.json()
-    
+
 
     if (result.ok) {
       userData = await consultaInt(`/apiUsers/${body.email}`)
       respuesta = await userData.json()
-      
+
 
       token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)
 
@@ -79,36 +79,36 @@ const myMovies = async (req, res) => {
 }
 
 const removeMovie = async (req, res) => {
-console.log('remuf')
+  console.log('remuf')
   const idUser = req.header.id
   const idMovie = req.params.id
-  console.log(idUser,idMovie)
+  console.log(idUser, idMovie)
   const body = {
     idUser
   }
   console.log(body)
   const remove = await consultaInt(`/apiUsers/films/${idMovie}`, 'delete', body)
-  const resp =  await remove.json()
-  console.log(resp,'remove')
-   res.redirect('/movies') 
+  const resp = await remove.json()
+  console.log(resp, 'remove')
+  res.redirect('/movies')
 }
 //falta gestión de errores, y no repetir peliculas. Y corregir el redirect
 const addMovie = async (req, res) => {
 
   const idMovie = req.params.id
   const idUser = req.header.id
-  
-  
-  
+
+
+
   try {
     const body = {
       idUser
     }
     const checkMovieOne = await consultaInt(`/apiUsers/films/userFilms/${idMovie}`, 'post', body)
     const result = await checkMovieOne.json()
-    
+
     if (!result.ok) {
-      
+
       const movieInfo = await consultaExt(null, idMovie)
       const { title, image, year, runtimeStr, genres, directors } = await movieInfo
       const bodyNew = {
@@ -137,11 +137,11 @@ const addMovie = async (req, res) => {
     res.render('error', {
       error: 'Error de conexión',
       msg: 'Error al conectar con  la base de datos'
-    })                                                            
+    })
   }
 
 
-  
+
 }
 
 
@@ -149,68 +149,174 @@ const addMovie = async (req, res) => {
 const getSearch = async (req, res) => {
 
   const busqueda = req.query.query
-  const pag = req.query.pag //esto hay que ponerlo bien
+  const pag = req.query.pag
+
+
   if (busqueda) {
-    const peticion = await consultaExt(busqueda)
-    
-    if (peticion) {
-      const paginas = Math.ceil(peticion.results.length / 12)
-      const primerCorte = (pag - 1) * 12
-      const segundoCorte = (pag * 12)
 
-      const miniPeticion = peticion.results.slice(primerCorte, segundoCorte);
+    const peticionInt = await consultaInt(`/peliculas/titulo/${busqueda}`)
+    const peticionJson = await peticionInt.json()
+
+    if (peticionJson.peliculaEncontrada.length == 0) {
+      const peticion = await consultaExt(`${busqueda}`)
+      console.log(peticion)
 
 
-      res.render('search', {
-        titulo: `Resultados de ${busqueda}`,
-        msg: `Se han encontrado ${peticion.results.length} resultados`,
-        query: true,
-        data: miniPeticion,
-        paginas,
-        busqueda
-      })
+      if (peticion) {
+        const paginas = Math.ceil(peticion.results.length / 12)
+        const primerCorte = (pag - 1) * 12
+        const segundoCorte = (pag * 12)
+
+        const miniPeticion = peticion.results.slice(primerCorte, segundoCorte);
+
+
+        res.render('search', {
+          titulo: `Resultados de ${busqueda}`,
+          msg: `Se han encontrado ${peticion.results.length} resultados`,
+          query: true,
+          data: miniPeticion,
+          paginas,
+          busqueda
+        })
+      } else {
+        res.render('error', {
+          error: 'Error',
+          msg: 'Error al obtener los resultados'
+        })
+      }
 
     } else {
-      res.render('error', {
-        error: 'Error',
-        msg: 'Error al obtener los resultados'
+      console.log(peticionJson.peliculaEncontrada)
+      res.render('ourResults', {
+        titulo: `Resultados de ${busqueda} de nuestra API`,
+        msg: `Se han encontrado ${peticionJson.peliculaEncontrada.length} resultados`,
+        query: true,
+        data: peticionJson.peliculaEncontrada,
+        paginas: 1,
+        busqueda
       })
     }
 
 
+  } else if (!busqueda && pag == 1) {
+    res.render('search', {
+      titulo: `No has introducido nada en la búsqueda`,
+      msg: `Escribe algo`,
+      query: false
+    })
   } else {
     res.render('search', {
       titulo: `Búsqueda de películas`,
-      msg: `Haz aquí tu búsqueda`,
+      msg: `Realiza aqui tu búsqueda`,
       query: false
     })
   }
+
+
 }
 
+
 const vistaDetalles = async (req, res) => {
+  console.log('paso')
   try {
 
 
-    let id=req.params.id
-    let titulo=req.params.title
-   
-    const peticion = await consultaExt(null,id)
+    let id = req.params.id
+    let titulo = req.params.title
+
+    const peticion = await consultaExt(null, id)
     console.log(titulo);
-    const opiniones=await searchGoogle(titulo)
-    
+    const opiniones = await searchGoogle(titulo)
+
     // const data=await peticion.json()
 
 
-    res.render('viewOne',{
-      msg:'estos son los detalles',
-      data:peticion,
-      opiniones:opiniones
+    res.render('viewOne', {
+      msg: 'estos son los detalles',
+      data: peticion,
+      opiniones: opiniones
 
     })
   } catch (error) {
 
   }
 }
+
+const addOurMovies = async (req, res) => {
+
+  const idMovie = req.params.id
+  const idUser = req.header.id
+  
+ 
+try {
+    const body = {
+      idUser
+    }
+    //aqui consulto si ya tiene esa película
+    const checkMovieOne = await consultaInt(`/apiUsers/films/userFilms/${idMovie}`, 'post', body)
+    const resultOneMovie = await checkMovieOne.json()
+    console.log(resultOneMovie, 'corto')
+
+    if (!resultOneMovie.ok) {
+      const checkMovie = await consultaInt(`/peliculas/${idMovie}`)
+      const result = await checkMovie.json()//informacion de la pelicula en nuestra api
+      const { title, image, year, duracion, genero, director } = result.peliculaEncontrada
+      const bodyNew = {
+        idUser: idUser,
+        title,
+        year,
+        runtimeStr: duracion,
+        genres: genero,
+        directors:director,
+        image,
+        idFilm: idMovie
+
+      }
+      console.log(bodyNew)
+
+      const addMovieOne = await consultaInt(`/apiUsers/films/`, 'post', bodyNew)//añadimos la pelicula
+      const resp = await addMovieOne.json()
+      console.log(resp)
+      res.redirect('/movies')
+    } else {
+      res.render('error', {
+        error: 'Error al añadir película',
+        msg: 'Ya tienes la película añadida'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    res.render('error', {
+      error: 'Error de conexión',
+      msg: 'Error al conectar con  la base de datos'
+    })
+  }
+
+
+
+}
+
+const viewOurMovies =async (req,res) => {
+  const  id = req.params.id
+  try {
+    const checkMovie = await consultaInt(`/peliculas/${id}`)
+    const result = await checkMovie.json()
+    const { title, image, year, duracion, genero, director, sinopsis, rating } = result.peliculaEncontrada //quitar
+    res.render('viewOurMovie', {
+      msg: 'Detalles de la película',
+      data: result.peliculaEncontrada
+      
+
+    })
+  } catch (error) {
+    res.render('error', {
+      error: 'Error de conexión',
+      msg: 'Error al capturar los datos de la película'
+    })
+  }
+}
+
+
 
 
 module.exports = {
@@ -222,5 +328,7 @@ module.exports = {
   myMovies,
   removeMovie,
   vistaDetalles,
-  postSignup
+  postSignup,
+  addOurMovies,
+  viewOurMovies
 }

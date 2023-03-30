@@ -11,34 +11,24 @@
                     </h1>
                     <p> Año: <%=data.year %>
                     </p>
-                    <p> Director: <%= data.directors %>
+                    <p> Director: <%= data.director %>
                     </p>
-                    <p> Reparto: <%= data.stars %>
+                   
+                    <p> Género: <%= data.genero %>
                     </p>
-                    <p> Género: <%= data.genres %>
+                    <p> Duración: <%=data.duracion %>
                     </p>
-                    <p> Duración: <%=data.runtimeStr %>
+                    <p> Sinopsis: <%= data.sinopsis %>
                     </p>
-                    <p> Sinopsis: <%= data.plot %>
-                    </p>
-                    <p> Rating: <%= data.imDbRating %>
+                    <p> Rating: <%= data.rating %>
                     </p>
                 </div>
             </div>
             <div class="movie-buttons">
                
-                <div class="false-button"><a href="../add/<%= data.id %>">Añadir a favoritos</a></div>
+                <div class="false-button"><a href='/search/addApi/<%= data._id %>'>Añadir a favoritos</a></div>
             </div>
         </section>
     </main>
-    <section class="reviews">
-        <div>
-            <% opiniones.forEach(element => { %>
-
-                <h2><%= element.titulo %></h2>
-             
-                <p><%= element.opiniones  %></p>
-            <% }) %>
-        </div>
-    </section>
+   
     <%- include('templates/footer.ejs') %>
