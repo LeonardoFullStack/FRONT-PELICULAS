@@ -17,7 +17,7 @@
                            <%= element.direction %>
                         </h4>
                         <h4>
-                           <%=element.stars%>
+                           
                         </h4>
                         <span>
                            <%= element.gender %> , <%=element.length%>
@@ -25,10 +25,10 @@
                      </div>
                      <div class="movie-buttons">
                         <div class="false-button"><a href="/remove/<%= element.idfilms %>">Quitar de favoritos</a></div>
-                        <div class="false-button"><a href="view/<%= element.id %>">Ver más</a></div>
+                        <div class="false-button"><a href="/search/<%= element.idfilms %>">Ver más</a></div>
                      </div>
                   </div>
-               </div>
+               </div></div></div></section>
                <% }) %>
 
                      <%- include('templates/footer.ejs') %>
