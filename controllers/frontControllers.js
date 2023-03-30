@@ -161,7 +161,6 @@ const getSearch = async (req, res) => {
       const miniPeticion = peticion.results.slice(primerCorte, segundoCorte);
 
 
-
       res.render('search', {
         titulo: `Resultados de ${busqueda}`,
         msg: `Se han encontrado ${peticion.results.length} resultados`,
@@ -190,15 +189,23 @@ const getSearch = async (req, res) => {
 
 const vistaDetalles = async (req, res) => {
   try {
-    let id = req.params.id
-    let titulo = req.params.title
 
-    const peticion = await consultaInt(null, id)
-    const opiniones = await searchGoogle(titulo)
-    res.render('vistaDetalle', {
-      msg: 'estos son los detalles',
-      detalles: peticion,
-      opiniones
+
+    let id=req.params.id
+    let titulo=req.params.title
+   
+    const peticion = await consultaExt(null,id)
+    console.log(titulo);
+    const opiniones=await searchGoogle(titulo)
+    
+    // const data=await peticion.json()
+
+
+    res.render('viewOne',{
+      msg:'estos son los detalles',
+      data:peticion,
+      opiniones:opiniones
+
     })
   } catch (error) {
 

@@ -28,7 +28,7 @@
                                     <img class="img-mini" src="<%= element.image %>" alt="portada de la película">
 
                                 </div>
-                                <div class="datos" <h2>
+                                <div class="datos"  <h2>
                                     <%=element.title%>
                                         <%=element.description%>
                                             </h2>
@@ -43,13 +43,14 @@
                                             </span>
                                 </div>
                             </div>
-                            <% let tituloSinEspacios=element.title.replace(' ',' -') %>
+                            <% let tituloSinEspacios=element.title.replace(' ','-') %>
                                 <div class="movie-buttons">
 
                                     <div id="<%= element.id %>" class="false-button favAdd"><a href='./add/<%= element.id %>'>Añadir a
                                             favoritos</a></div>
-                                    <div class="false-button" ><a
-                                            href="http://localhost:4000/search/<%= element.id %>">Ver mas</a></div>
+                                    <div class="false-button"><a
+                                            href=<%=`http://localhost:4000/search/${element.id}/${tituloSinEspacios}`%>
+                                            >Ver mas</a></div>
                                 </div>
                         </div>
                     </div>
@@ -81,4 +82,5 @@
                         </div>
                         <% } %>
                             </main>
-                            
+
+

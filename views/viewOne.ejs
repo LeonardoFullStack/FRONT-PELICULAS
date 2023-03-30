@@ -33,7 +33,12 @@
     </main>
     <section class="reviews">
         <div>
-            aaaaaa
+            <% opiniones.forEach(element => { %>
+
+                <h2><%= element.titulo %></h2>
+             
+                <p><%= element.opiniones  %></p>
+            <% }) %>
         </div>
     </section>
     <%- include('templates/footer.ejs') %>

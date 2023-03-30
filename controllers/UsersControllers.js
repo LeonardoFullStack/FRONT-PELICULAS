@@ -15,7 +15,7 @@ const logins =async (req,res) =>{
 }
 
 const checkLogin = async (req, res) => {
-    console.log('ke')
+   
 
 
     const { email, password } = req.body
@@ -39,6 +39,7 @@ const checkLogin = async (req, res) => {
                
                 res.redirect('/admin/movies')
             } else {
+                console.log(result.data[0].id, result.data[0].name);
                 token = await generarJwt(result.data[0].id, result.data[0].name)
                 res.cookie('xtoken', token)
 

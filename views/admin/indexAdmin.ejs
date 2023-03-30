@@ -5,7 +5,7 @@
         <h1>Tus películas favoritas</h1>
     </div>
     <div class="create-button">
-        <a class="a-create" href="http://localhost:3000/admin/createMovie">
+        <a class="a-create" href="http://localhost:4000/admin/createMovie">
             <i class="fi fi-rr-pen-clip"></i>Crear película
         </a>
     </div>
@@ -22,13 +22,13 @@
                     </div>
                     <div class="datos">
                         <h1><%= element.title %> (<%= element.year %>)</h1>
-                        <h4><%= element.director %></h4>
-                        <span>Género duración min</span>
+                        <h4><%= element.directors %></h4>
+                        <span> <%=element.genres%> <%=element.runtimeStr%> min</span>
                     </div>
                 </div>
                 <div class="movie-buttons">
-                    <div class="false-button"><a href=<%=`http://localhost:3000/admin/editMovies/${element._id}`%>>Editar</a></div>
-                    <div class="false-button"><a href=<%=`http://localhost:3000/admin/removeMovie/${element._id}`%>>ELIMINAR</a></div>
+                    <div class="false-button"><a href=<%=`http://localhost:4000/admin/editMovies/${element._id}`%>>Editar</a></div>
+                    <div class="false-button"><a href=<%=`http://localhost:4000/admin/removeMovie/${element._id}`%>>ELIMINAR</a></div>
                 </div>
             </div>
         </div>

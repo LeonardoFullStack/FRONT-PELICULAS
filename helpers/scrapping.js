@@ -8,7 +8,7 @@ async function recogerCajas(url,browser){
   return opinion
 }
 async function searchGoogle(titulo) {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   await page.goto("https://www.imdb.com");
   await page.type("#suggestion-search",`${titulo}`);
@@ -24,8 +24,13 @@ for (let i = 0; i < 4; i++) {
   const data=await recogerCajas(urls[i],browser)
   arrayOpiniones.push(data)
 }
+
  return arrayOpiniones;
 }
+
+
+
+
 module.exports={
   searchGoogle
 }

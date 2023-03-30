@@ -21,7 +21,7 @@ router.get('/dashboard',validarJwt,getDashboard)
 
 router.get('/search/?',validarJwt, getSearch)
 router.get('/search/add/:id',validarJwt, addMovie) // quitar seguramente
-router.get('/search/:id',validarJwt, viewMovie)
+router.get('/search/:id/:title',validarJwt, vistaDetalles)
 /* router.get('/search/:id/:title',vistaDetalles)
  */router.get('/movies',validarJwt, myMovies)
 router.get('/dashboard',validarJwt,getDashboard)
