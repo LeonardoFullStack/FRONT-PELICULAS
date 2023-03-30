@@ -17,8 +17,13 @@ const consultaInt = async(url,method,body) => {
         }
     }
     if(method=='delete'){
-        options={
-            method: method, //mirar si hay que mandar mas cosas en el delete
+        const data={...body};
+         options={
+            method:method,
+            body:JSON.stringify(data),
+            headers:{
+                'Content-type':'application/json'
+            }
         }
     }
     if(method=='get'){
@@ -26,7 +31,7 @@ const consultaInt = async(url,method,body) => {
             method: method,
         }
     }
-    console.log(`${urlBase}${url}`)
+    console.log(body)
       return await fetch(`${urlBase}${url}`,options);
 }
 

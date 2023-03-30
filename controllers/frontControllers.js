@@ -2,8 +2,8 @@ const express = require('express')
 const { consultaExt } = require('../helpers/fetchImdb')
 const { consultaInt } = require('../helpers/fecthPropia')
 const { validarJwt } = require('../middleware/validarJwt')
-const {generarJwt} = require('../helpers/jwt')
-const {searchGoogle} = require('../helpers/scrapping')
+const { generarJwt } = require('../helpers/jwt')
+const { searchGoogle } = require('../helpers/scrapping')
 const bcrypt = require('bcryptjs')
 
 
@@ -25,51 +25,52 @@ const getSignup = async (req, res) => {
     titulo: 'Crear usuario',
     msg: 'Crea tu usuario en la API de MLE, son ya mas de quinientos billones!'
   })
-  }
+}
 
 
 
 
-const postSignup =async (req,res) => {
-  console.log('paso1')
-  let userData, respuesta,data,result,token
-  let body = { ...req.body } 
-  console.log(body)
-    try {
-      body.isAdmin=false;
-      let salt = bcrypt.genSaltSync(10);
-      body.password = bcrypt.hashSync(body.password, salt)
-      console.log('preconsulta')
-       data = await consultaInt(`/apiusers`, 'post', body)
-       result = await data.json()
-       console.log(result)
+const postSignup = async (req, res) => {
 
-      if (result.ok) {
-        userData = await consultaInt(`/apiUsers/${body.email}`)
-        respuesta = await userData.json()
+  let userData, respuesta, data, result, token
+  let body = { ...req.body }
+
+  try {
+    body.isAdmin = false;
+    let salt = bcrypt.genSaltSync(10);
+    body.password = bcrypt.hashSync(body.password, salt)
+
+    data = await consultaInt(`/apiusers`, 'post', body)
+    result = await data.json()
+    
+
+    if (result.ok) {
+      userData = await consultaInt(`/apiUsers/${body.email}`)
+      respuesta = await userData.json()
       
-        token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)
-        
-        
-        res.cookie('xtoken', token)
-        res.redirect('/dashboard')
-      }
 
-    } catch (error) {
-      res.render('error', {
-        error: 'error de conexión',
-        msg: 'error al crear usuario'
-      })
+      token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)
+
+
+      res.cookie('xtoken', token)
+      res.redirect('/dashboard')
     }
+
+  } catch (error) {
+    res.render('error', {
+      error: 'error de conexión',
+      msg: 'error al crear usuario'
+    })
+  }
 }
 
 const myMovies = async (req, res) => {
   const id = req.header.id
-  
+
   const myMovies = await consultaInt(`/apiUsers/films/all/${id}`)
   const moviesJson = await myMovies.json()
-  console.log(moviesJson.data)
-  
+
+
   res.render('myMovies', {
     titulo: `Mis películas`,
     msg: `Consulta aquí tus películas`,
@@ -78,54 +79,69 @@ const myMovies = async (req, res) => {
 }
 
 const removeMovie = async (req, res) => {
+console.log('remuf')
   const idUser = req.header.id
   const idMovie = req.params.id
-  const remove = await removeMovieConnect(idUser, idMovie)
-  res.redirect('/movies')
+  console.log(idUser,idMovie)
+  const body = {
+    idUser
+  }
+  console.log(body)
+  const remove = await consultaInt(`/apiUsers/films/${idMovie}`, 'delete', body)
+  const resp =  await remove.json()
+  console.log(resp,'remove')
+   res.redirect('/movies') 
 }
 //falta gestión de errores, y no repetir peliculas. Y corregir el redirect
 const addMovie = async (req, res) => {
-  
+
   const idMovie = req.params.id
-  const idUsers = req.header.id
-  const body = {
-    idUsers
-  }
-  console.log(idUsers, idMovie)
-  const checkMovieOne  = await consultaInt(`/apiUsers/films/${idMovie}`,'get',body)
-  const result = await checkMovieOne.json()
-  console.log(result)
-  if (!result.ok) {
-    
-    const movieInfo  = await consultaExt(null, idMovie)
-    const {title, image, year, runtimeStr, genres, directors} = await movieInfo
-    const bodyNew = {
-      idUser:idUsers,
-      title,
-      year,
-      runtimeStr,
-      genres,
-      directors,
-      image,
-      idFilm: idMovie
-
+  const idUser = req.header.id
+  
+  
+  
+  try {
+    const body = {
+      idUser
     }
+    const checkMovieOne = await consultaInt(`/apiUsers/films/userFilms/${idMovie}`, 'post', body)
+    const result = await checkMovieOne.json()
     
-    const addMovieOne = await consultaInt(`/apiUsers/films/`,'post',bodyNew)
-    const resp = await addMovieOne.json()
-    console.log(resp)
-  }
-  /* const checkMovieOne = await checkMovie(idUsers, idMovie)
-  if (checkMovieOne.length == 0) {
-    const peticion = await consultaInt(null, idMovie)
-    const { title, image, genres, year, runtimeStr, directors } = peticion
-    const data = await addMovieConnect(idMovie, idUsers, title, image, genres, year, runtimeStr, directors)
+    if (!result.ok) {
+      
+      const movieInfo = await consultaExt(null, idMovie)
+      const { title, image, year, runtimeStr, genres, directors } = await movieInfo
+      const bodyNew = {
+        idUser: idUser,
+        title,
+        year,
+        runtimeStr,
+        genres,
+        directors,
+        image,
+        idFilm: idMovie
 
-  } else {
-    //aqui ya tiene la película
+      }
+
+      const addMovieOne = await consultaInt(`/apiUsers/films/`, 'post', bodyNew)
+      const resp = await addMovieOne.json()
+      res.redirect('/movies')
+    } else {
+      res.render('error', {
+        error: 'Error al añadir película',
+        msg: 'Ya tienes la película añadida'
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    res.render('error', {
+      error: 'Error de conexión',
+      msg: 'Error al conectar con  la base de datos'
+    })                                                            
   }
-*/
-  res.redirect('/search/?pag=1&query=matrix') 
+
+
+  
 }
 
 
@@ -136,7 +152,7 @@ const getSearch = async (req, res) => {
   const pag = req.query.pag //esto hay que ponerlo bien
   if (busqueda) {
     const peticion = await consultaExt(busqueda)
-   
+    
     if (peticion) {
       const paginas = Math.ceil(peticion.results.length / 12)
       const primerCorte = (pag - 1) * 12
@@ -172,20 +188,20 @@ const getSearch = async (req, res) => {
   }
 }
 
-const vistaDetalles=async (req, res)=>{
+const vistaDetalles = async (req, res) => {
   try {
-    let id=req.params.id
-    let titulo=req.params.title
-   
-    const peticion = await consultaInt(null,id)
-    const opiniones=await searchGoogle(titulo)
-    res.render('vistaDetalle',{
-      msg:'estos son los detalles',
-      detalles:peticion,
+    let id = req.params.id
+    let titulo = req.params.title
+
+    const peticion = await consultaInt(null, id)
+    const opiniones = await searchGoogle(titulo)
+    res.render('vistaDetalle', {
+      msg: 'estos son los detalles',
+      detalles: peticion,
       opiniones
     })
   } catch (error) {
-    
+
   }
 }
 

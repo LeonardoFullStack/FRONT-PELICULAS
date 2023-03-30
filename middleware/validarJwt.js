@@ -7,7 +7,7 @@ const validarJwt = (req, res, next) => {
     
        
     const xToken = req.cookies['xtoken'];
-        console.log(xToken)
+        
 
         if (!xToken) {
             return res.render('index', {

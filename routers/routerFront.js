@@ -25,7 +25,7 @@ router.get('/search/:id',validarJwt, viewMovie)
 /* router.get('/search/:id/:title',vistaDetalles)
  */router.get('/movies',validarJwt, myMovies)
 router.get('/dashboard',validarJwt,getDashboard)
-router.delete('/remove/:id', validarJwt, removeMovie)
+router.get('/remove/:id', validarJwt, removeMovie)
 
 
 router.get('/logout', logout)
