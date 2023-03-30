@@ -5,10 +5,10 @@ const consultaExt = async (titulo, id) => {
   let ruta;
   
   if  (id) {
-      ruta=`https://imdb-api.com/en/API/Title/k_vi4x48ks/${id}`,
+      ruta=`https://imdb-api.com/en/API/Title/k_igkxkgas/${id}`,
       console.log(ruta)
     } else if (titulo && id == null) {
-      ruta=`https://imdb-api.com/API/AdvancedSearch/k_vi4x48ks/?title=${titulo}`
+      ruta=`https://imdb-api.com/API/AdvancedSearch/k_igkxkgas/?title=${titulo}`
       console.log(ruta)
     }
     try {

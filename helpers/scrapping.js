@@ -20,7 +20,7 @@ async function searchGoogle(titulo) {
   await page.waitForNavigation();
 const urls = await page.$$eval('.lister-item-content a.title', (link) =>link.map((link) => link.href));
  const arrayOpiniones=[];
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 2; i++) {
   const data=await recogerCajas(urls[i],browser)
   arrayOpiniones.push(data)
 }

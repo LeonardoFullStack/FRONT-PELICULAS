@@ -152,14 +152,12 @@ const getSearch = async (req, res) => {
   const pag = req.query.pag //esto hay que ponerlo bien
   if (busqueda) {
     const peticion = await consultaExt(busqueda)
-    
     if (peticion) {
       const paginas = Math.ceil(peticion.results.length / 12)
       const primerCorte = (pag - 1) * 12
       const segundoCorte = (pag * 12)
 
       const miniPeticion = peticion.results.slice(primerCorte, segundoCorte);
-
 
       res.render('search', {
         titulo: `Resultados de ${busqueda}`,
