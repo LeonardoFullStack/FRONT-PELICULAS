@@ -48,8 +48,7 @@ const postSignup =async (req,res) => {
         userData = await consultaInt(`/apiUsers/${body.email}`)
         respuesta = await userData.json()
       
-        token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)
-        
+        token = await generarJwt(respuesta.data[0].id, respuesta.data[0].name)       
         
         res.cookie('xtoken', token)
         res.redirect('/dashboard')
@@ -118,7 +117,6 @@ const getSearch = async (req, res) => {
       const miniPeticion = peticion.results.slice(primerCorte, segundoCorte);
 
 
-
       res.render('search', {
         titulo: `Resultados de ${busqueda}`,
         msg: `Se han encontrado ${peticion.results.length} resultados`,
@@ -147,15 +145,21 @@ const getSearch = async (req, res) => {
 
 const vistaDetalles=async (req, res)=>{
   try {
+
     let id=req.params.id
     let titulo=req.params.title
    
-    const peticion = await consultaInt(null,id)
+    const peticion = await consultaExt(null,id)
+    console.log(titulo);
     const opiniones=await searchGoogle(titulo)
-    res.render('vistaDetalle',{
+    
+    // const data=await peticion.json()
+
+
+    res.render('viewOne',{
       msg:'estos son los detalles',
-      detalles:peticion,
-      opiniones
+      data:peticion,
+      opiniones:opiniones
     })
   } catch (error) {
     
