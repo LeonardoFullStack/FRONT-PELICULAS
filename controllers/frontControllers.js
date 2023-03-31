@@ -11,7 +11,7 @@ const bcrypt = require('bcryptjs')
 const getIndex = async (req, res,) => {
 
   res.render('index', {
-    titulo: 'Proyecto intermedio',
+    titulo: 'Accede a tu usuario',
     msg: 'Haz login para comenzar'
   })
 }
