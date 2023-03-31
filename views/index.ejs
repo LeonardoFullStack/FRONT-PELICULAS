@@ -1,23 +1,28 @@
 <%- include('templates/header.ejs') %>
-    <main>
+    <main class="flex-container pad">
+        <div class="cabecera">
         <h1>
         <%= titulo%>
         </h1>
         <p>
             <%= msg%>
         </p>
-    </main>
-    <form method="post" action="/login/">
-        <input type="text" name="email" placeholder="e-mail">
-        <input type="password" name="password" placeholder="contraseña">
-        <input type="submit" value="Entrar">
-
-    </form>
-
-    <a href="/signup">
+        </div>
+            
+    <a class="i-sub" href="/signup">
         <button>
             Crear usuario
         </button>
     </a>
+
+    </main>
+
+    <form class="i-form" method="post" action="/login/">
+        <input class="i-email" type="text" name="email" placeholder="e-mail">
+        <input class="i-pass" type="password" name="password" placeholder="contraseña">
+        <input class="i-sub" type="submit" value="Entrar">
+
+    </form>
+
     
     <%- include('templates/footer.ejs') %>

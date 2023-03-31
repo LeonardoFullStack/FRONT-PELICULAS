@@ -1,3 +1,12 @@
+
+/*D7D9D7 C9C5CB BAACBD B48EAE 646E68*/
+:root{
+--mini:10px;
+--med:15px;
+--gran:20px;
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -7,28 +16,89 @@
     outline: none;
     font-family: 'Roboto Condensed', sans-serif;
 }
-/* table {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid black;
-    padding: 8px;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  tr:nth-child(odd) {
-    background-color: #ffffff;
-  } */
+
+.foots{
+    height: 30px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    background-color: #b48eae;
+    text-align: center;
+    margin-top: 40px;
+}
+.pad{
+    padding: var(--gran) var(--med);
+    justify-content: space-between;
+}
+
+.foots p{
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    color: white;
+    font-size: var(--med);   
+}
 
 .flex-container {
     display: flex;
 
 }
+
+.cabecera{
+    display: flow-root;
+    position: static;
+    width: 70%;
+    height: auto;
+    height: fit-content;
+}
+.cabecera h1{
+    font-size: var(--gran);
+}
+
+.i-sub{
+    position: static;
+    text-decoration: none;
+    height: auto;
+    width: 20%;
+    position: relative;
+    background-color: #b48eae;
+    text-align: center;
+    padding: 2vh;
+    border-radius: var(--mini);
+    font-size: var(--med);
+}
+
+.i-form{
+    height: 30vh;
+    width: auto;
+}
+
+form .i-email{
+    width: auto;
+    overflow: hidden;
+}
+
+.i-email, .i-pass{
+    width:50%;
+    padding: 2vh 2vw;
+    margin:4vh 0.5w;
+    box-sizing: border-box;
+    border: 2px solid #b48eae;
+    border-radius: 4px;
+    /* background-color: #f8f8f8; */
+    font-size: var(--med);
+    color: #000;
+    height: auto;
+    margin-bottom: 2vh;
+}
+
+a>button{
+    text-decoration: none;
+    color: white;
+    background-color:  #b48eae;
+}
+
+
 
 .dash-movies {
     background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/3df60b79393001.5cc188e73252a.png');
@@ -48,7 +118,6 @@
     background-image: url('https://graffica.info/wp-content/uploads/2018/01/10241a59547099.5a268ac8dca75.png');
     opacity: 0.75;
     background-size: cover;
-
     width: 50%;
     height: 100vh;
 
@@ -86,6 +155,13 @@
 }
 
 /*HASTA AQUI EL DASHBOARD colores D7D9D7 C9C5CB BAACBD B48EAE 646E68*/
+.nav-title{     
+    margin-top: 1.75vh;
+    color: black;
+    font-family:'VT323', monospace;
+    font-size: 50px;
+}
+
 nav {
     height: 15%;
     max-width: 100%;
@@ -97,6 +173,7 @@ nav {
     list-style: none;
     display: flex;
     justify-content: left;
+    color:#BAACBD
 }
 
 .nav-desplegable {
@@ -122,7 +199,7 @@ nav {
     position: relative;
     color: white;
     display: table;
-    padding: 10px;
+    padding: var(--mini);
     margin: auto;
 }
 
@@ -138,6 +215,10 @@ nav {
     
     /* border: 3px solid slateblue; */
 }
+.films-container{
+    background-image: url('https://pbs.twimg.com/media/EBNgbfPXsAUfBnG.png');
+    opacity: 0.8;
+}
 
 .films-container h1 {
     font-size: 30px;
@@ -147,16 +228,17 @@ nav {
 
 .movie-card {
     position: relative;
+    
     display: block;
     width: 93vw;
     height: 45vh;
     margin: 2vh auto;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: var(--mini);
     transition: all 1s;
     box-shadow: 2px 2px 2px 2px rgb(180, 142, 174, 0.8);
-    background-image: url(https://i.pinimg.com/564x/09/dd/34/09dd3454d76341c6f7bb883518d99565.jpg);
-    
+    /* background-image: url(https://i.pinimg.com/564x/09/dd/34/09dd3454d76341c6f7bb883518d99565.jpg); */
+    background-image: url('https://wallpaperaccess.com/full/2459571.jpg');
 }
 
 .movie-card:hover {
@@ -204,7 +286,7 @@ nav {
     text-align: center;
     color: black;
     font-weight: 300;
-    margin-top: 10px;
+    margin-top: var(--mini);
     font-style: italic;
 }
 
@@ -214,7 +296,7 @@ nav {
     color: black;
     margin-top: 2% auto;
     border: 1px solid rgba(0, 0, 0, 0.07);
-    margin-top: 10px;
+    margin-top: var(--mini);
 }
 
 .movie-img {
@@ -245,7 +327,7 @@ nav {
     height: 100%;
     margin-top: 7px;
     background-color: #BAACBD;
-    border-radius: 10px;
+    border-radius: var(--mini);
     align-content: center;
 }
 
@@ -259,21 +341,24 @@ nav {
     background-color: none;
 }
 /*search*/
+
+
 .s-form-container {
     position: relative;
     padding: 2vh 2vw;
-    opacity: 90%;
     justify-content: center;
-    background-image: url(https://www.shutterstock.com/image-vector/pixel-art-cute-village-sunset-260nw-1620602971.jpg);
-    
+    background-image: url(https://www.shutterstock.com/image-vector/pixel-art-cute-village-sunset-260nw-1620602971.jpg);    background-size: cover;
+    background: linear-gradient(#b48eae, rgb(255, 206, 176)
+    );
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
-.s-form-container h1{
+/* .s-form-container h1{
     text-align: center;
     color: white;
     font-size: 40px;
     color: navy;
     font-family: 'Roboto', sans-serif;
-}
+} */
 
 h2 .form-container {
     position: absolute;
@@ -308,7 +393,7 @@ h2 .form-container {
     height: 4.5vh;
     width: 15vw;
     font-size: medium;
-    border-radius: 10px;
+    border-radius: var(--mini);
     transition: 0.5s;
 }
 
@@ -349,7 +434,7 @@ button .false-button{
 .create-button {
     display: flex;
     background-color: #b48eae;
-    border-radius: 10px;
+    border-radius: var(--mini);
     width: 30vw;
     height: 3vw;
     align-items: center;
@@ -369,7 +454,7 @@ button .false-button{
 }
 .title h1{
     margin-top: 5px;
-    font-size: 20px;
+    font-size: var(--gran);
 }
 
 .a-create {
@@ -472,7 +557,11 @@ textarea:focus {
 /*vista detalle*/
 .film-container {
     padding: 2vh 3vw;
-    background-color: #555;
+    /* background-color: #555; */
+    background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/3a785079393001.5cc188e732242.png');
+    background-size: cover;
+    opacity: 0.9;
+    
 }
 
 .movie {
@@ -488,7 +577,7 @@ textarea:focus {
     display: block;
     width: 300px;
     height: 450px;
-    border-radius: 10px;
+    border-radius: var(--mini);
 }
 
 .film-data {
@@ -498,7 +587,7 @@ textarea:focus {
     align-items: center;
     justify-content: center;
     background-color: #ccc;
-    border-radius: 10px;
+    border-radius: var(--mini);
 
 }
 
@@ -518,6 +607,42 @@ textarea:focus {
     width: auto;
     background-color: #b48eae;
 }
+
+/*404*/
+.main-error{
+    display: flex;
+    padding: 2%;
+   
+}
+
+.error-text{
+    width: 50%;
+    height: fit-content;
+    margin: 2%;
+    
+}
+.error-text h1, .error-text h2, .error-text h3{
+    font-family: 'VT323', monospace;
+    margin: 2vh;
+}
+.error-text h1{
+    font-size: 60px;
+}
+.error-text h2{
+    font-size: 40px;
+}
+.error-texth3{
+    font-size: 20px;
+}
+
+.div-i-error{
+    width: 50%;
+    margin: 2%;
+    height: 380px;
+    overflow: hidden;
+    position: relative;
+} 
+
 
 /*D7D9D7 C9C5CB BAACBD B48EAE 646E68*/
 /**********por debajo de 768***********/
@@ -541,6 +666,11 @@ textarea:focus {
     .nav-item,
     .nav i {
         font-size: 2.5vh;
+    }
+    /*form index*/
+    .i-pass{
+        height: 3vh;
+        width: 30%;
     }
 
     /*cards*/
@@ -573,11 +703,11 @@ textarea:focus {
     }
 
     .movie-header h1 {
-        margin-top: 10px;
+        margin-top: var(--mini);
         display: block;
         text-align: center;
         font-weight: 100;
-        font-size: 16px;
+        font-size: var(--med);
     }
 
     .movie-header h4 {
@@ -613,7 +743,7 @@ textarea:focus {
         width: 40%;
         height: 100%;
         margin-top: 2px;
-        font-size: 15px;
+        font-size: var(--med);
     }
 
     .form-container h2 {
@@ -665,7 +795,8 @@ textarea:focus {
         display: grid;
         grid-template-columns: 1fr;
         margin: auto;
-        border-radius: 10px;
+        margin-top: 3%;
+        border-radius: var(--mini);
         width: 70%;
         height: auto;
         box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.7);
@@ -678,14 +809,18 @@ textarea:focus {
 
     .film-data {
         background-color: #ccc;
-        border-radius: 10px;
-        padding: 10px;
+        border-radius: var(--mini);
+        padding: var(--mini);
     }
 
     .div-card-img {
-        border-radius: 10px;
+        border-radius: var(--mini);
         overflow: hidden;
     }
+    .div-i-error{
+        height: 480px;
+    } 
+
 
 }
 
@@ -701,6 +836,11 @@ textarea:focus {
         width: 45vw;
         height: 38vh;
     }
+/* 
+    input.i-sub{
+        height: 3vh;
+        border: 2px solid black;
+    } */
 
     .movie-header {
         position: relative;
@@ -771,6 +911,9 @@ textarea:focus {
         padding: 0;
         margin: 1vh 1vw;
     }
+    .i-sub{
+        height: 3vh;
+    }
 
     /*vista detalle*/
     /* .grid-film{
@@ -794,6 +937,9 @@ textarea:focus {
     }
 
 
+    .div-i-error{
+        height: 500px;
+    } 
 }
 
 /**********por debajo de 1200***********/
@@ -829,7 +975,7 @@ textarea:focus {
     .movie-header h1 {
         margin-top: 5px;
         display: block;
-        font-size: 17px;
+        font-size: var(--med);
     }
 
     .movie-header span {
@@ -916,5 +1062,14 @@ textarea:focus {
     .div-card-img {
         width: 80%;
     }
+
+    .error-text{
+        font-size: 70px;
+    }
+
+    .div-i-error{
+        padding: 3%;
+        height: 580px;
+    } 
 
 }
